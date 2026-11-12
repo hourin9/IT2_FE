@@ -17,9 +17,10 @@ export const studentApi = {
 };
 
 export const regulationApi = {
-  search: async (category = 'ALL', keyword = ''): Promise<Regulation[]> => {
+  search: async (category = 'ALL', keyword = '', signal?: AbortSignal): Promise<Regulation[]> => {
     const res = await api.get('/regulations', {
       params: { category, keyword },
+      signal,
     });
     return res.data;
   },

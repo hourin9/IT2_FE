@@ -16,6 +16,7 @@ export interface Regulation {
   documentNumber: string;
   title: string;
   category: 'HOC_BONG' | 'HOC_VU' | 'THU_TUC_MOT_CUA';
+  tags?: string[];
   issuer: string;
   issuedDate: string;
   pdfUrl?: string;

@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Search, Filter, ExternalLink, Eye, Download } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { ExternalLink, Eye, Download, SearchX } from 'lucide-react';
 import { regulationApi } from '../services/api';
 import { Regulation } from '../types';
 import { DocumentViewerModal } from '../components/DocumentViewerModal';
+import { SearchBar } from '../components/SearchBar';
+import { RegulationFilterPanel } from '../components/RegulationFilterPanel';
+import { useRegulationFilters } from '../hooks/useRegulationFilters';
 
 export const CatalogPage: React.FC = () => {
-  const [category, setCategory] = useState<string>('ALL');
-  const [keyword, setKeyword] = useState<string>('');
+  const { keyword, category, tags, activeCount, setKeyword, setCategory, toggleTag, reset } =
+    useRegulationFilters();
   const [selectedDoc, setSelectedDoc] = useState<Regulation | null>(null);
 
-  const { data: regulations, isLoading } = useQuery({
+  // `keyword` đã được SearchBar debounce nên mỗi lần ngừng gõ chỉ phát sinh một request;
+  // `signal` hủy request cũ nếu bộ lọc đổi trước khi có kết quả.
+  const {
+    data: regulations,
+    isLoading,
+    isFetching,
+    isError,
+  } = useQuery({
     queryKey: ['regulations', category, keyword],
-    queryFn: () => regulationApi.search(category, keyword),
+    queryFn: ({ signal }) => regulationApi.search(category, keyword, signal),
+    placeholderData: keepPreviousData,
   });
 
-  const categories = [
-    { id: 'ALL', label: 'Tất cả lĩnh vực' },
-    { id: 'HOC_BONG', label: 'Học bổng & Hỗ trợ tài chính' },
-    { id: 'HOC_VU', label: 'Học vụ & Tín chỉ' },
-    { id: 'THU_TUC_MOT_CUA', label: 'Thủ tục Một cửa' },
-  ];
+  // Tag được lọc phía client trên tập kết quả của danh mục + từ khóa hiện tại.
+  const availableTags = useMemo(() => {
+    const all = new Set<string>(tags);
+    regulations?.forEach((doc) => doc.tags?.forEach((t) => all.add(t)));
+    return [...all].sort((x, y) => x.localeCompare(y, 'vi'));
+  }, [regulations, tags]);
+
+  const visibleRegulations = useMemo(
+    () =>
+      tags.length === 0
+        ? regulations ?? []
+        : (regulations ?? []).filter((doc) => tags.every((t) => doc.tags?.includes(t))),
+    [regulations, tags],
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -50,45 +69,59 @@ export const CatalogPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Search & Category Filter Toolbar */}
-      <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-dut-outline-variant/30 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
-        {/* Search Input */}
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="Tìm theo số hiệu (1414/QĐ), tên quy định hoặc trích yếu..."
-            className="w-full pl-10 pr-4 py-2 text-sm bg-dut-surface-container-low border border-dut-outline-variant/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-dut-primary focus:bg-white transition-all"
-          />
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] gap-5 items-start">
+        <RegulationFilterPanel
+          category={category}
+          onCategoryChange={setCategory}
+          availableTags={availableTags}
+          selectedTags={tags}
+          onToggleTag={toggleTag}
+          activeCount={activeCount}
+          onReset={reset}
+        />
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap gap-1.5 items-center">
-          <Filter className="w-4 h-4 text-dut-outline mr-1 hidden sm:block" />
-          {categories.map((c) => (
-            <button
-              key={c.id}
-              onClick={() => setCategory(c.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                category === c.id
-                  ? 'bg-dut-primary text-white shadow-sm'
-                  : 'bg-dut-surface-container hover:bg-dut-surface-container-high text-dut-on-surface-variant'
-              }`}
-            >
-              {c.label}
-            </button>
-          ))}
-        </div>
-      </div>
+        <div className="space-y-4 min-w-0">
+          <div className="bg-white p-4 rounded-2xl shadow-sm border border-dut-outline-variant/30 space-y-2">
+            <SearchBar
+              value={keyword}
+              onSearch={setKeyword}
+              isLoading={isFetching}
+              placeholder="Tìm theo số hiệu (1414/QĐ), tên quy định hoặc trích yếu..."
+            />
+            <p className="text-xs text-dut-on-surface-variant" aria-live="polite">
+              {isLoading
+                ? 'Đang tải danh mục văn bản...'
+                : isError
+                  ? 'Không tải được danh mục văn bản. Vui lòng thử lại.'
+                  : `${visibleRegulations.length} văn bản${keyword ? ` cho "${keyword}"` : ''}`}
+            </p>
+          </div>
 
-      {/* Regulation List Grid */}
-      {isLoading ? (
-        <div className="text-center py-12 text-sm text-gray-500">Đang tải danh mục văn bản...</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {regulations?.map((doc) => (
+          {!isLoading && !isError && visibleRegulations.length === 0 && (
+            <div className="bg-white rounded-2xl border border-dashed border-dut-outline-variant p-10 text-center">
+              <SearchX className="w-8 h-8 text-dut-outline mx-auto" />
+              <p className="mt-3 text-sm font-semibold text-dut-on-surface">
+                Không tìm thấy văn bản phù hợp
+              </p>
+              {activeCount > 0 && (
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="mt-2 text-xs font-semibold text-dut-primary hover:underline"
+                >
+                  Xóa bộ lọc
+                </button>
+              )}
+            </div>
+          )}
+
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 transition-opacity ${
+              isFetching ? 'opacity-60' : ''
+            }`}
+          >
+            {visibleRegulations.map((doc) => (
+
             <div
               key={doc.id}
               className="bg-white rounded-2xl p-5 shadow-sm border border-dut-outline-variant/30 hover:border-dut-primary/50 hover:shadow-md transition-all flex flex-col justify-between"
@@ -135,8 +168,9 @@ export const CatalogPage: React.FC = () => {
               </div>
             </div>
           ))}
+          </div>
         </div>
-      )}
+      </div>
 
       {/* Modal Document Viewer */}
       <DocumentViewerModal
