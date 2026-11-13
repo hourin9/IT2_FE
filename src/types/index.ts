@@ -23,6 +23,16 @@ export interface Regulation {
   contentHtml?: string;
 }
 
+export interface Procedure {
+  id: number;
+  procedureName: string;
+  description?: string;
+  formUrl?: string;
+  formFileName?: string;
+  pdfUrl?: string;
+  pdfFileName?: string;
+}
+
 export interface ProcedureCriteria {
   id: number;
   procedureName: string;
