@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { CheckCircle2, AlertCircle, Send, CheckSquare, Award } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Send, CheckSquare, Award, Download, FileText, FileDown } from 'lucide-react';
 import { procedureApi } from '../services/api';
+import { downloadFile } from '../utils/download';
+
+// Procedure to load form/PDF links from (GET /api/procedures/{id}).
+// Override with VITE_PROCEDURE_ID in .env.
+const PROCEDURE_ID = Number(import.meta.env.VITE_PROCEDURE_ID) || 1;
 
 export const ProcedurePage: React.FC = () => {
   const studentCode = '102230001';
@@ -9,6 +14,32 @@ export const ProcedurePage: React.FC = () => {
   const [submittedTicket, setSubmittedTicket] = useState<{ ticketCode: string } | null>(null);
 
   const [completedSteps, setCompletedSteps] = useState<number[]>([0]);
+
+  const { data: procedure, isLoading: procedureLoading, isError: procedureError } = useQuery({
+    queryKey: ['procedure', PROCEDURE_ID],
+    queryFn: () => procedureApi.getById(PROCEDURE_ID),
+  });
+
+  const [downloading, setDownloading] = useState<'form' | 'pdf' | null>(null);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+
+  const handleDownload = async (kind: 'form' | 'pdf') => {
+    const url = kind === 'form' ? procedure?.formUrl : procedure?.pdfUrl;
+    const filename =
+      (kind === 'form' ? procedure?.formFileName : procedure?.pdfFileName) ||
+      (kind === 'form' ? 'don-de-nghi.docx' : 'van-ban-quy-dinh.pdf');
+    if (!url) return;
+
+    setDownloading(kind);
+    setDownloadError(null);
+    try {
+      await downloadFile(url, filename);
+    } catch {
+      setDownloadError('Không tải được tệp. Vui lòng thử lại sau hoặc liên hệ phòng Đào tạo & CTSV.');
+    } finally {
+      setDownloading(null);
+    }
+  };
 
   const { data: evaluation } = useQuery({
     queryKey: ['procedure-evaluation', studentCode],
@@ -177,6 +208,59 @@ export const ProcedurePage: React.FC = () => {
 
         {/* Right Column: Ticket Submission / Feedback Form (1 col) */}
         <div className="space-y-6">
+          {/* Downloads Card */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-dut-outline-variant/30 space-y-4">
+            <div className="flex items-center space-x-2 text-dut-on-surface">
+              <Download className="w-5 h-5 text-dut-primary" />
+              <h3 className="font-bold text-base">Biểu mẫu & Văn bản</h3>
+            </div>
+            <p className="text-xs text-dut-on-surface-variant">
+              Tải biểu mẫu đề nghị xét học bổng và văn bản quy định để chuẩn bị hồ sơ.
+            </p>
+
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={() => handleDownload('form')}
+                disabled={downloading !== null || !procedure?.formUrl}
+                className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 bg-dut-primary text-white text-xs sm:text-sm font-bold rounded-xl hover:bg-dut-primary-container disabled:opacity-50 transition-colors shadow-sm"
+              >
+                <FileText className="w-4 h-4" />
+                <span>{downloading === 'form' ? 'Đang tải...' : 'Tải biểu mẫu đề nghị'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleDownload('pdf')}
+                disabled={downloading !== null || !procedure?.pdfUrl}
+                className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 bg-white text-dut-primary text-xs sm:text-sm font-bold rounded-xl border border-dut-primary hover:bg-dut-surface-container-low disabled:opacity-50 transition-colors"
+              >
+                <FileDown className="w-4 h-4" />
+                <span>{downloading === 'pdf' ? 'Đang tải...' : 'Tải văn bản quy định (PDF)'}</span>
+              </button>
+            </div>
+
+            {procedureLoading && (
+              <p className="text-xs text-dut-on-surface-variant">Đang tải danh sách tài liệu...</p>
+            )}
+
+            {procedureError && (
+              <p className="text-xs text-red-700 bg-red-50 border border-red-200 rounded-lg p-2.5">
+                Không lấy được thông tin biểu mẫu từ máy chủ.
+              </p>
+            )}
+
+            {procedure && !procedure.formUrl && !procedure.pdfUrl && (
+              <p className="text-xs text-dut-on-surface-variant">Thủ tục này chưa có tài liệu đính kèm.</p>
+            )}
+
+            {downloadError && (
+              <p className="text-xs text-red-700 bg-red-50 border border-red-200 rounded-lg p-2.5">
+                {downloadError}
+              </p>
+            )}
+          </div>
+
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-dut-outline-variant/30 space-y-4">
             <div className="flex items-center space-x-2 text-dut-on-surface">
               <AlertCircle className="w-5 h-5 text-amber-500" />
