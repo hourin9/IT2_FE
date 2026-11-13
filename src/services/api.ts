@@ -31,6 +31,10 @@ export const regulationApi = {
 };
 
 export const procedureApi = {
+  getById: async (id: number): Promise<Procedure> => {
+    const res = await api.get(`/procedures/${id}`);
+    return res.data;
+  },
   evaluate: async (studentCode: string): Promise<EvaluationResult> => {
     const res = await api.get(`/procedures/evaluate/${studentCode}`);
     return res.data;
