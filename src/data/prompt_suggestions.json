@@ -1,0 +1,119 @@
+[
+  {
+    "id": "hb_kkht_01",
+    "category": "Học bổng & Khen thưởng",
+    "category_code": "scholarship",
+    "label": "Điều kiện xét học bổng KKHT",
+    "query": "Điều kiện để được xét cấp học bổng khuyến khích học tập (KKHT) tại trường là gì? Cần đạt điểm trung bình chung học tập (GPA) và điểm rèn luyện tối thiểu là bao nhiêu?",
+    "icon": "GraduationCap",
+    "popular": true
+  },
+  {
+    "id": "hb_mg_02",
+    "category": "Học bổng & Khen thưởng",
+    "category_code": "scholarship",
+    "label": "Chính sách miễn giảm học phí",
+    "query": "Những đối tượng sinh viên nào được hưởng chính sách miễn, giảm học phí và trợ cấp xã hội? Hồ sơ và thủ tục nộp ở đâu?",
+    "icon": "BadgePercent",
+    "popular": false
+  },
+  {
+    "id": "cchv_muc_01",
+    "category": "Cảnh cáo học vụ & Kỷ luật",
+    "category_code": "academic_warning",
+    "label": "Mức cảnh cáo học vụ & buộc thôi học",
+    "query": "Quy chế xử lý học vụ quy định như thế nào về các mức cảnh cáo học vụ (mức 1, mức 2) và điều kiện bị buộc thôi học?",
+    "icon": "AlertTriangle",
+    "popular": true
+  },
+  {
+    "id": "cchv_no_tc_02",
+    "category": "Cảnh cáo học vụ & Kỷ luật",
+    "category_code": "academic_warning",
+    "label": "Quy định số tín chỉ nợ tối đa",
+    "query": "Sinh viên được phép nợ tối đa bao nhiêu tín chỉ trong một học kỳ và tích lũy trước khi bị đình chỉ học tập?",
+    "icon": "FileWarning",
+    "popular": false
+  },
+  {
+    "id": "cdr_ngoai_ngu_01",
+    "category": "Chuẩn đầu ra & Tốt nghiệp",
+    "category_code": "graduation",
+    "label": "Chuẩn đầu ra tiếng Anh xét tốt nghiệp",
+    "query": "Quy định chuẩn đầu ra ngoại ngữ (tiếng Anh TOEIC/IELTS) để được xét tốt nghiệp đại học chính quy cho từng khóa/ngành là bao nhiêu điểm?",
+    "icon": "Languages",
+    "popular": true
+  },
+  {
+    "id": "cdr_tot_nghiep_som_02",
+    "category": "Chuẩn đầu ra & Tốt nghiệp",
+    "category_code": "graduation",
+    "label": "Điều kiện xét tốt nghiệp sớm",
+    "query": "Sinh viên muốn đăng ký xét tốt nghiệp sớm cần hoàn thành những điều kiện gì về số tín chỉ tích lũy, GPA và các chứng chỉ điều kiện?",
+    "icon": "Award",
+    "popular": false
+  },
+  {
+    "id": "cdr_chung_chi_phu_03",
+    "category": "Chuẩn đầu ra & Tốt nghiệp",
+    "category_code": "graduation",
+    "label": "Chứng chỉ Tin học, GDQP & GDTC",
+    "query": "Chứng chỉ Tin học MOS/IC3, Giáo dục Quốc phòng - An ninh và Giáo dục Thể chất có bắt buộc để đủ điều kiện xét nhận bằng tốt nghiệp không?",
+    "icon": "CheckSquare",
+    "popular": false
+  },
+  {
+    "id": "dktc_tin_chi_01",
+    "category": "Đăng ký tín chỉ & Học vụ",
+    "category_code": "registration",
+    "label": "Số tín chỉ đăng ký tối thiểu/tối đa",
+    "query": "Mỗi học kỳ chính và học kỳ hè, sinh viên được phép đăng ký tối thiểu bao nhiêu tín chỉ và tối đa bao nhiêu tín chỉ?",
+    "icon": "BookOpen",
+    "popular": true
+  },
+  {
+    "id": "dktc_rut_hoc_phan_02",
+    "category": "Đăng ký tín chỉ & Học vụ",
+    "category_code": "registration",
+    "label": "Thủ tục rút bớt học phần đã đăng ký",
+    "query": "Thời hạn và thủ tục xin rút bớt học phần sau khi đã đăng ký tín chỉ thành công được quy định như thế nào? Có được hoàn học phí không?",
+    "icon": "MinusCircle",
+    "popular": false
+  },
+  {
+    "id": "dktc_cai_thien_03",
+    "category": "Đăng ký tín chỉ & Học vụ",
+    "category_code": "registration",
+    "label": "Quy chế học lại & học cải thiện điểm",
+    "query": "Quy chế đào tạo quy định về việc học lại (điểm F) và đăng ký học cải thiện nâng điểm (điểm D, C) như thế nào? Điểm số được tính vào GPA ra sao?",
+    "icon": "TrendingUp",
+    "popular": false
+  },
+  {
+    "id": "tthc_giay_xac_nhan_01",
+    "category": "Thủ tục hành chính sinh viên",
+    "category_code": "student_affairs",
+    "label": "Xin cấp giấy chứng nhận sinh viên",
+    "query": "Quy trình xin cấp giấy xác nhận sinh viên (để hoãn nghĩa vụ quân sự, vay vốn ngân hàng chính sách hoặc làm vé xe buýt) thực hiện như thế nào?",
+    "icon": "FileText",
+    "popular": true
+  },
+  {
+    "id": "tthc_bang_diem_02",
+    "category": "Thủ tục hành chính sinh viên",
+    "category_code": "student_affairs",
+    "label": "Thủ tục xin cấp bảng điểm học tập",
+    "query": "Làm thế nào để xin cấp bảng điểm học tập (bản giấy có dấu đỏ hoặc bản điện tử có chữ ký số)? Thời gian xử lý mất bao lâu?",
+    "icon": "ClipboardList",
+    "popular": false
+  },
+  {
+    "id": "tthc_bao_luu_03",
+    "category": "Thủ tục hành chính sinh viên",
+    "category_code": "student_affairs",
+    "label": "Thủ tục xin bảo lưu / tạm dừng học",
+    "query": "Điều kiện và thủ tục xin tạm dừng học tập (bảo lưu kết quả học tập) là gì? Thời gian bảo lưu tối đa được bao lâu và khi quay lại cần làm thủ tục gì?",
+    "icon": "PauseCircle",
+    "popular": false
+  }
+]

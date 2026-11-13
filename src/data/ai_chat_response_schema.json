@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AiChatResponseContract",
+  "description": "JSON Contract quy định dữ liệu phản hồi chuẩn từ AI Inference Engine / RAG Service cho Hệ thống Trợ lý Học vụ DUT",
+  "type": "object",
+  "required": ["answer", "sources"],
+  "properties": {
+    "answer": {
+      "type": "string",
+      "description": "Câu trả lời chi tiết, chính xác, giải thích rõ ràng theo quy chế của Nhà trường, không ảo giác."
+    },
+    "sources": {
+      "type": "array",
+      "description": "Danh sách các căn cứ pháp lý, văn bản quy chế và điều khoản trích dẫn trực tiếp.",
+      "items": {
+        "type": "object",
+        "required": ["documentNumber", "documentTitle", "clause", "excerpt", "pdfUrl"],
+        "properties": {
+          "documentNumber": {
+            "type": "string",
+            "description": "Số hiệu quyết định / văn bản (Ví dụ: QĐ 1234/QĐ-ĐHBK)."
+          },
+          "documentTitle": {
+            "type": "string",
+            "description": "Tên đầy đủ của văn bản quy chế."
+          },
+          "clause": {
+            "type": "string",
+            "description": "Vị trí trích dẫn cụ thể (Ví dụ: Điều 14, Khoản 2, Điểm a)."
+          },
+          "excerpt": {
+            "type": "string",
+            "description": "Đoạn trích dẫn nguyên văn làm bằng chứng (ground truth) để highlight trên PDF."
+          },
+          "pageNumber": {
+            "type": "integer",
+            "description": "Số trang tương ứng trong file PDF gốc."
+          },
+          "pdfUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Đường dẫn tải hoặc xem trực tuyến file PDF quy chế."
+          }
+        }
+      }
+    },
+    "suggestions": {
+      "type": "array",
+      "description": "Danh sách 2-4 câu hỏi gợi ý liên quan tiếp theo cho sinh viên bấm nhanh.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

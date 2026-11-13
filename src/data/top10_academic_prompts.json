@@ -1,0 +1,72 @@
+[
+  {
+    "id": "prompt-01",
+    "category": "Học bổng & Khen thưởng",
+    "shortLabel": "Tiêu chuẩn học bổng KKHT",
+    "prompt": "Tiêu chuẩn điểm GPA và điểm rèn luyện tối thiểu để đạt học bổng khuyến khích học tập (KKHT) các loại Xuất sắc, Giỏi, Khá là bao nhiêu?",
+    "targetTopic": "scholarship"
+  },
+  {
+    "id": "prompt-02",
+    "category": "Học bổng & Khen thưởng",
+    "shortLabel": "Tín chỉ tối thiểu xét học bổng",
+    "prompt": "Học kỳ chính cần đăng ký tối thiểu bao nhiêu tín chỉ để đủ điều kiện xét học bổng? Học phần học lại hay học kỳ hè có được tính không?",
+    "targetTopic": "scholarship_credits"
+  },
+  {
+    "id": "prompt-03",
+    "category": "Cảnh cáo học vụ & Kỷ luật",
+    "shortLabel": "Mức cảnh cáo học vụ",
+    "prompt": "Quy chế xử lý học vụ quy định như thế nào về các mức cảnh cáo học vụ (mức 1, mức 2, mức 3) và điều kiện bị buộc thôi học?",
+    "targetTopic": "academic_warning"
+  },
+  {
+    "id": "prompt-04",
+    "category": "Chuẩn đầu ra & Tốt nghiệp",
+    "shortLabel": "Chuẩn đầu ra tiếng Anh",
+    "prompt": "Quy định chuẩn đầu ra ngoại ngữ (TOEIC, IELTS) để được xét tốt nghiệp đại học chính quy là bao nhiêu điểm? Chứng chỉ nào được công nhận?",
+    "targetTopic": "english_exit_benchmark"
+  },
+  {
+    "id": "prompt-05",
+    "category": "Thủ tục hành chính",
+    "shortLabel": "Tạm hoãn học tập (Bảo lưu)",
+    "prompt": "Điều kiện và thủ tục xin tạm dừng học tập (bảo lưu kết quả học tập) là gì? Thời gian bảo lưu tối đa được bao lâu?",
+    "targetTopic": "academic_leave"
+  },
+  {
+    "id": "prompt-06",
+    "category": "Đăng ký tín chỉ",
+    "shortLabel": "Học cùng lúc hai chương trình",
+    "prompt": "Điều kiện để sinh viên được đăng ký học cùng lúc hai chương trình đào tạo (học song bằng / bằng thứ hai) tại trường là gì?",
+    "targetTopic": "dual_degree"
+  },
+  {
+    "id": "prompt-07",
+    "category": "Thủ tục hành chính",
+    "shortLabel": "Giấy xác nhận hoãn NVQS",
+    "prompt": "Quy trình xin cấp giấy xác nhận sinh viên để làm thủ tục tạm hoãn nghĩa vụ quân sự trực tuyến qua cổng một cửa thực hiện như thế nào?",
+    "targetTopic": "military_deferment_paper"
+  },
+  {
+    "id": "prompt-08",
+    "category": "Đăng ký tín chỉ",
+    "shortLabel": "Học lại & Học cải thiện",
+    "prompt": "Quy định về việc đăng ký học lại (điểm F) và học cải thiện nâng điểm (điểm D, C) như thế nào? Điểm số được tính vào điểm trung bình tích lũy ra sao?",
+    "targetTopic": "retake_grade_improvement"
+  },
+  {
+    "id": "prompt-09",
+    "category": "Học phí & Chính sách xã hội",
+    "shortLabel": "Miễn giảm học phí",
+    "prompt": "Những đối tượng sinh viên nào được hưởng chính sách miễn, giảm học phí theo Nghị định 81? Hồ sơ cần những giấy tờ gì và nộp khi nào?",
+    "targetTopic": "tuition_exemption"
+  },
+  {
+    "id": "prompt-10",
+    "category": "Chuẩn đầu ra & Tốt nghiệp",
+    "shortLabel": "Điều kiện làm Đồ án tốt nghiệp",
+    "prompt": "Điều kiện về số tín chỉ tích lũy tối thiểu và điểm trung bình để được nhận đồ án tốt nghiệp / khóa luận tốt nghiệp là gì?",
+    "targetTopic": "capstone_project_requirements"
+  }
+]
