@@ -8,6 +8,13 @@ export default {
     extend: {
       colors: {
         dut: {
+          // Bảng màu của bản mock (svdutudnvn.netlify.app)
+          50: '#eff6ff',
+          100: '#dbeafe',
+          600: '#1e60b5',
+          700: '#0b4386',
+          800: '#003b7a',
+          900: '#002b5c',
           surface: '#faf8ff',
           'surface-dim': '#d2d9f4',
           'surface-bright': '#faf8ff',

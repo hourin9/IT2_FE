@@ -1,14 +1,46 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Award, ClipboardList, Gavel, LayoutGrid, LucideIcon } from 'lucide-react';
 import { Regulation } from '../types';
 
 export type RegulationCategory = 'ALL' | Regulation['category'];
 
-export const REGULATION_CATEGORIES: { id: RegulationCategory; label: string }[] = [
-  { id: 'ALL', label: 'Tất cả lĩnh vực' },
-  { id: 'HOC_BONG', label: 'Học bổng & Hỗ trợ tài chính' },
-  { id: 'HOC_VU', label: 'Học vụ & Tín chỉ' },
-  { id: 'THU_TUC_MOT_CUA', label: 'Thủ tục Một cửa' },
+/** Danh mục + icon/màu theo bản mock. */
+export const REGULATION_CATEGORIES: {
+  id: RegulationCategory;
+  label: string;
+  icon: LucideIcon;
+  iconClass: string;
+  badgeClass: string;
+}[] = [
+  {
+    id: 'ALL',
+    label: 'Tất cả văn bản',
+    icon: LayoutGrid,
+    iconClass: 'text-slate-500',
+    badgeClass: 'bg-slate-100 text-slate-700 border-slate-200',
+  },
+  {
+    id: 'HOC_BONG',
+    label: 'Học bổng & Hỗ trợ tài chính',
+    icon: Award,
+    iconClass: 'text-amber-600',
+    badgeClass: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  {
+    id: 'THU_TUC_MOT_CUA',
+    label: 'Thủ tục một cửa',
+    icon: ClipboardList,
+    iconClass: 'text-blue-600',
+    badgeClass: 'bg-blue-50 text-blue-800 border-blue-200',
+  },
+  {
+    id: 'HOC_VU',
+    label: 'Quy chế đào tạo',
+    icon: Gavel,
+    iconClass: 'text-purple-600',
+    badgeClass: 'bg-purple-50 text-purple-800 border-purple-200',
+  },
 ];
 
 const isCategory = (v: string | null): v is RegulationCategory =>

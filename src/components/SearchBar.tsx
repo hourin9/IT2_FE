@@ -45,13 +45,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <form
       role="search"
-      className="relative"
+      className="relative flex items-center"
       onSubmit={(e) => {
         e.preventDefault();
         commit(text); // Enter: tìm ngay, không chờ debounce
       }}
     >
-      <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+      <Search className="absolute left-3.5 w-[18px] h-[18px] text-slate-400 pointer-events-none" />
       <input
         type="text"
         value={text}
@@ -61,20 +61,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         }}
         placeholder={placeholder}
         aria-label="Tìm kiếm văn bản, quy chế"
-        className="w-full pl-10 pr-16 py-2.5 text-sm bg-dut-surface-container-low border border-dut-outline-variant/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-dut-primary focus:bg-white transition-all"
+        className="w-full pl-10 pr-16 py-2.5 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-dut-800 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-dut-600/20 transition-all"
       />
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+      <div className="absolute right-3 flex items-center gap-1">
         {(isPending || isLoading) && (
-          <Loader2 className="w-4 h-4 text-dut-primary animate-spin" aria-label="Đang tìm kiếm" />
+          <Loader2 className="w-4 h-4 text-dut-600 animate-spin" aria-label="Đang tìm kiếm" />
         )}
         {text && (
           <button
             type="button"
             onClick={() => commit('')}
             aria-label="Xóa từ khóa"
-            className="p-1 rounded-full text-gray-400 hover:text-dut-on-surface hover:bg-dut-surface-container transition-colors"
+            className="text-slate-400 hover:text-slate-600 p-1 rounded-full"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4 h-4" />
           </button>
         )}
       </div>
