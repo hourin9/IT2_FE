@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Student, Regulation, EvaluationResult, ChatResponse, AcademicEvent } from '../types';
+import { Student, Regulation, DocStep, DocDetail, EvaluationResult, ChatResponse, AcademicEvent } from '../types';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
@@ -30,11 +30,14 @@ export const regulationApi = {
   },
 };
 
-export const procedureApi = {
-  getById: async (id: number): Promise<Procedure> => {
-    const res = await api.get(`/procedures/${id}`);
+export const docApi = {
+  getById: async (id: number): Promise<DocDetail> => {
+    const res = await api.get(`/docs/${id}`);
     return res.data;
   },
+};
+
+export const procedureApi = {
   evaluate: async (studentCode: string): Promise<EvaluationResult> => {
     const res = await api.get(`/procedures/evaluate/${studentCode}`);
     return res.data;
