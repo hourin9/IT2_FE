@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # ==========================================
 # STAGE 1: Build React App with Node 22
 # ==========================================
@@ -5,9 +6,9 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Copy dependency definitions
+# Copy dependency definitions & reuse persistent npm cache
 COPY package*.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 # Copy source code and build
 COPY . .
