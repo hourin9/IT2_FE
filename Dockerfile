@@ -29,4 +29,5 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Remove the Docker Compose /api proxy block when `backend` is not resolvable (e.g. Railway/PaaS with VITE_API_BASE_URL)
+CMD ["sh", "-c", "if ! getent hosts backend >/dev/null 2>&1; then sed -i '/# Reverse proxy/,/^    }/d' /etc/nginx/conf.d/default.conf; fi; exec nginx -g 'daemon off;'"]
