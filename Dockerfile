@@ -11,6 +11,8 @@ COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci
 
 # Copy source code and build
+ARG VITE_API_BASE_URL=/api
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 COPY . .
 RUN npm run build
 

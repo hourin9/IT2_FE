@@ -14,7 +14,7 @@ import {
   MessageSquareText,
   RotateCcw,
 } from 'lucide-react';
-import { procedureApi, docApi, regulationApi } from '../services/api';
+import { procedureApi, docApi, regulationApi, resolveApiUrl } from '../services/api';
 import { downloadFile } from '../utils/download';
 import { useStudent } from '../contexts/StudentContext';
 import { useToast } from '../contexts/ToastContext';
@@ -98,17 +98,18 @@ export const ProcedurePage: React.FC = () => {
     if (!doc?.file_url) return;
     setDownloadError(null);
 
-    const isSameOrigin = new URL(doc.file_url, window.location.origin).origin === window.location.origin;
+    const resolvedUrl = resolveApiUrl(doc.file_url);
+    const isSameOrigin = new URL(resolvedUrl, window.location.origin).origin === window.location.origin;
     if (!isSameOrigin) {
-      window.open(doc.file_url, '_blank', 'noopener,noreferrer');
+      window.open(resolvedUrl, '_blank', 'noopener,noreferrer');
       return;
     }
 
     setDownloading(true);
     try {
       await downloadFile(
-        doc.file_url,
-        getFileName(doc.file_url, `bieu-mau-thu-tuc-${doc.id}.doc`),
+        resolvedUrl,
+        getFileName(resolvedUrl, `bieu-mau-thu-tuc-${doc.id}.doc`),
       );
       showToast('Đã tải xuống biểu mẫu thành công.', 'success');
     } catch {

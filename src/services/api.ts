@@ -11,7 +11,18 @@ import {
   AcademicEvent,
 } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+
+/** Resolve relative `/api/...` paths returned by backend against `API_BASE_URL` for cross-origin deployments. */
+export function resolveApiUrl(path: string): string {
+  if (!path) return path;
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith('/api/')) {
+    const base = API_BASE_URL.replace(/\/+$/, '');
+    return `${base}${path.slice(4)}`;
+  }
+  return path;
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
