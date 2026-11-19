@@ -4,11 +4,56 @@
 
 @layer utilities {
   .doc-highlight {
-    @apply bg-amber-200 text-amber-950 px-1 py-0.5 rounded font-semibold transition-all duration-300;
+    @apply bg-amber-200/80 text-amber-950 px-1 py-0.5 rounded font-semibold transition-all duration-300;
   }
   .doc-highlight-active {
     @apply ring-2 ring-amber-500 bg-amber-300;
   }
+}
+
+/* Legal document reading typography */
+.legal-prose table {
+  @apply w-full border-collapse my-3 text-xs sm:text-sm;
+}
+.legal-prose th,
+.legal-prose td {
+  @apply border border-slate-200 px-3 py-2 text-left align-top;
+}
+.legal-prose th {
+  @apply bg-slate-50 font-semibold text-slate-800;
+}
+.legal-prose h1,
+.legal-prose h2,
+.legal-prose h3 {
+  @apply font-bold text-dut-800 mt-4 mb-2;
+}
+.legal-prose ul,
+.legal-prose ol {
+  @apply pl-5 my-2 space-y-1;
+}
+.legal-prose ul {
+  @apply list-disc;
+}
+.legal-prose ol {
+  @apply list-decimal;
+}
+.legal-prose blockquote {
+  @apply border-l-4 border-dut-600 pl-3 italic text-slate-600 my-2;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-modal-in {
+  animation: modal-in 0.16s ease-out;
 }
 
 /* Custom Scrollbar */
@@ -17,12 +62,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f2f3ff;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c4c5d7;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #747686;
+  background: #94a3b8;
 }

@@ -36,6 +36,11 @@ export interface SearchResponse {
   category: string;
   tags: string[];
   total: number;
+  page?: number;
+  size?: number;
+  totalItems?: number;
+  totalPages?: number;
+  availableTags?: string[];
   semanticUsed: boolean;
   guardrailBlocked: boolean;
   guardrailMessage?: string | null;

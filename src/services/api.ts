@@ -55,12 +55,14 @@ export const regulationApi = {
 
 export const searchApi = {
   search: async (
-    params: { q?: string; category?: string; tags?: string[]; limit?: number },
+    params: { q?: string; category?: string; tags?: string[]; page?: number; size?: number; limit?: number },
     signal?: AbortSignal,
   ): Promise<SearchResponse> => {
     const queryParams = new URLSearchParams();
     if (params.q) queryParams.set('q', params.q);
     if (params.category) queryParams.set('category', params.category);
+    if (params.page) queryParams.set('page', String(params.page));
+    if (params.size) queryParams.set('size', String(params.size));
     if (params.limit) queryParams.set('limit', String(params.limit));
     params.tags?.forEach((t) => queryParams.append('tag', t));
     const res = await api.get(`/search?${queryParams.toString()}`, { signal });
