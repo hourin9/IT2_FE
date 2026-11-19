@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy dependency definitions & reuse persistent npm cache
 COPY package*.json ./
-RUN --mount=type=cache,id=it2-fe-npm,target=/root/.npm npm ci
+RUN npm ci
 
 # Copy source code and build
 ARG VITE_API_BASE_URL=/api
