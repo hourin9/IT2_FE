@@ -46,8 +46,10 @@ export const REGULATION_CATEGORIES: {
 const isCategory = (v: string | null): v is RegulationCategory =>
   REGULATION_CATEGORIES.some((c) => c.id === v);
 
+const ALLOWED_PAGE_SIZES = [12, 24, 48] as const;
+
 /**
- * State bộ lọc tra cứu quy chế, lưu trên URL (?q=&category=&tag=)
+ * State bộ lọc & phân trang tra cứu quy chế, lưu trên URL (?q=&category=&tag=&page=&size=)
  * để giữ được khi reload, chia sẻ link và bấm Back.
  */
 export function useRegulationFilters() {
@@ -58,6 +60,10 @@ export function useRegulationFilters() {
   const category: RegulationCategory = isCategory(rawCategory) ? rawCategory : 'ALL';
   const tagKey = params.getAll('tag').join('\u0000');
   const tags = useMemo(() => (tagKey ? tagKey.split('\u0000') : []), [tagKey]);
+  const rawPage = Number(params.get('page'));
+  const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1;
+  const rawSize = Number(params.get('size'));
+  const size = (ALLOWED_PAGE_SIZES as readonly number[]).includes(rawSize) ? rawSize : 12;
 
   const update = useCallback(
     (mutate: (next: URLSearchParams) => void) => {
@@ -78,6 +84,7 @@ export function useRegulationFilters() {
       update((next) => {
         if (value) next.set('q', value);
         else next.delete('q');
+        next.delete('page');
       }),
     [update],
   );
@@ -89,6 +96,7 @@ export function useRegulationFilters() {
         else next.set('category', value);
         // Tag phụ thuộc vào tập văn bản của danh mục nên bỏ chọn khi đổi danh mục.
         next.delete('tag');
+        next.delete('page');
       }),
     [update],
   );
@@ -102,6 +110,26 @@ export function useRegulationFilters() {
           ? current.filter((t) => t !== tag)
           : [...current, tag];
         updated.forEach((t) => next.append('tag', t));
+        next.delete('page');
+      }),
+    [update],
+  );
+
+  const setPage = useCallback(
+    (nextPage: number) =>
+      update((next) => {
+        if (nextPage <= 1) next.delete('page');
+        else next.set('page', String(nextPage));
+      }),
+    [update],
+  );
+
+  const setSize = useCallback(
+    (nextSize: number) =>
+      update((next) => {
+        if (nextSize === 12) next.delete('size');
+        else next.set('size', String(nextSize));
+        next.delete('page');
       }),
     [update],
   );
@@ -112,11 +140,25 @@ export function useRegulationFilters() {
         next.delete('q');
         next.delete('category');
         next.delete('tag');
+        next.delete('page');
       }),
     [update],
   );
 
   const activeCount = (keyword ? 1 : 0) + (category !== 'ALL' ? 1 : 0) + tags.length;
 
-  return { keyword, category, tags, activeCount, setKeyword, setCategory, toggleTag, reset };
+  return {
+    keyword,
+    category,
+    tags,
+    page,
+    size,
+    activeCount,
+    setKeyword,
+    setCategory,
+    toggleTag,
+    setPage,
+    setSize,
+    reset,
+  };
 }
